@@ -1,0 +1,25 @@
+tardis_hash: 78aa63380684297101133791e8efeda08d0b42c8
+bibcode: > 
+  @ARTICLE{2014MNRAS.440..387K,
+       author = {{Kerzendorf}, Wolfgang E. and {Sim}, Stuart A.},
+        title = "{A spectral synthesis code for rapid modelling of supernovae}",
+      journal = {\mnras},
+     keywords = {radiative transfer, methods: numerical, supernovae: general,
+        Astrophysics - Solar and Stellar Astrophysics, Astrophysics -
+        Instrumentation and Methods for Astrophysics},
+         year = 2014,
+        month = May,
+       volume = {440},
+        pages = {387-404},
+          doi = {10.1093/mnras/stu055},
+  archivePrefix = {arXiv},
+       eprint = {1401.5469},
+       adsurl = {https://ui.adsabs.harvard.edu/#abs/2014MNRAS.440..387K},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+  }
+
+
+description:
+  appendix_A1: > 
+    the first example setup in the TARDIS paper. 
+    Excludes all iron group elements for computational expediency.
