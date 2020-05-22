@@ -106,5 +106,3 @@ venv.bak/
 # Mac OSX
 .DS_Store
 
-# HDF5 files
-*.h5
