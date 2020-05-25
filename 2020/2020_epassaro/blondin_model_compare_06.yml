@@ -21,7 +21,7 @@ montecarlo:
   seed: 23111963
   no_of_packets: 500000
   iterations: 20
-  nthreads: 8
+  nthreads: 16
 
   last_no_of_packets: 500000
 
