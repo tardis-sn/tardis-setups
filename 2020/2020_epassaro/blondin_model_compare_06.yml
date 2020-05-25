@@ -6,7 +6,6 @@ supernova:
   time_explosion: 15 day
 
 atom_data: kurucz_cd23_latest.h5
-# atom_data: kurucz_cd23_latest_chianti.h5
 
 csvy_model: blondin_compare_06.csvy
 

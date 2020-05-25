@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import re
 import numpy as np
@@ -94,6 +95,7 @@ def run_tardis_model(params):
     print(sim.model.v_boundary_inner)
     sim.run()
     fname = 'Output/Toy_06/toy06_t{}_v{}.hdf'.format(params[0].value, params[2].value)
+
     with pd.HDFStore(fname) as hdf:
         hdf.put('wavelength', pd.Series(sim.runner.spectrum.wavelength.value))
         hdf.put('lum', pd.Series(sim.runner.spectrum_integrated.luminosity_density_lambda.value))
@@ -112,12 +114,20 @@ def run_final_models_plus_pickle(params, fname='blondin_model_compare_06.yml'):
     sim = Simulation.from_config(model_config)
     print(sim.model.v_boundary_inner)
     sim.run()
+
     import pickle
-    dump = 'Output/Toy_06/toy06_t{}_v{}.pickle'.format(params[0].value, params[2].value)
+    if "PICKLE_DIR" not in os.environ:
+        dump = 'Output/Toy_06/toy06_t{}_v{}.pickle'.format(params[0].value, params[2].value)
+    else:
+        dump = os.path.join(os.environ['PICKLE_DIR'], 'toy06_t{}_v{}.pickle'.format(params[0].value, params[2].value))
     with open(dump, 'wb') as dumpfile:
         pickle.dump(sim, dumpfile)
     return 1
 
 pool = Pool(4)
-final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s), (10*u.d, lbols[1], 17000.*u.km/u.s), (15*u.d, lbols[2], 10000.*u.km/u.s), (20*u.d, lbols[3], 5500.*u.km/u.s)]
+final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s), 
+                (10*u.d, lbols[1], 17000.*u.km/u.s), 
+                (15*u.d, lbols[2], 10000.*u.km/u.s), 
+                (20*u.d, lbols[3], 5500.*u.km/u.s)]
+
 pool.map(run_final_models_plus_pickle, final_params)
