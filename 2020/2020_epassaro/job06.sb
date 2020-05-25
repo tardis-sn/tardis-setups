@@ -1,0 +1,17 @@
+#!/bin/bash --login
+########## SBATCH Lines for Resource Request ##########
+ 
+#SBATCH --time=01:00:00             # limit of wall clock time - how long the job will run (same as -t)
+#SBATCH --nodes=1                   # number of different nodes - could be an exact number or a range of nodes (same as -N)
+#SBATCH --ntasks=1                  # number of tasks - how many tasks (nodes) that you require (same as -n)
+#SBATCH --cpus-per-task=16          # number of CPUs (or cores) per task (same as -c)
+#SBATCH --mem-per-cpu=2G            # memory required per allocated CPU (or core) - amount of memory (in bytes)
+#SBATCH --job-name TARDIS_SIMU      # you can give your job a name for easier identification (same as -J)
+ 
+########## Command Lines to Run ##########
+ 
+cd Documents/tardis-setups/2020/2020_epassaro      ### change to the directory where your code is located
+ 
+srun -n 1 run06.sh                                 ### call your executable (similar to mpirun)
+scontrol show job $SLURM_JOB_ID                    ### write job information to SLURM output file
+js -j $SLURM_JOB_ID                                ### write resource usage to SLURM output file (powetools command)
