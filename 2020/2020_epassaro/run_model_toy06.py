@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 import pandas as pd
 import re
 import numpy as np
@@ -150,3 +151,5 @@ final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
 
 pool.map(run_final_models_plus_pickle, final_params)
+
+sys.exit(0)
