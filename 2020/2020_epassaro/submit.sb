@@ -12,9 +12,9 @@
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export ATOM_DATA="kurucz_cd23_latest.h5"
-export PICKLE_DIR="$SCRATCH"    # save to scratch space
+export PICKLE_DIR="$SCRATCH"        # save to scratch space
 
 cd Documents/tardis-setups/2020/2020_epassaro       ### change to the directory where your code is located
 conda activate tardis
 
-srun -n 1 run_model_toy06.py                        ### call your executable (similar to mpirun)
+srun -n 1 $1		                            ### call your executable (similar to mpirun)
