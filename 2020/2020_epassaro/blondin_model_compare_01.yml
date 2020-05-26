@@ -3,7 +3,7 @@ tardis_config_version: v1.0
 
 supernova:
   luminosity_requested: 9.44 log_lsun
-  time_explosion: 13 day
+  time_explosion: 15 day
 
 atom_data: !ENV ${ATOM_DATA}
 
@@ -20,8 +20,8 @@ plasma:
 montecarlo:
   seed: 23111963
   no_of_packets: 500000
-  iterations: 30
-  nthreads: 1
+  iterations: 20
+  nthreads: 0
 
   last_no_of_packets: 500000
 
@@ -32,7 +32,7 @@ montecarlo:
     fraction: 0.8
 
     # t_inner:
-    #   damping_constant: 0.0
+    # damping_constant: 0.5
 
 spectrum:
   start: 500 angstrom
