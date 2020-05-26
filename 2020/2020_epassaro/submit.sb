@@ -10,7 +10,7 @@
  
 ########## Command Lines to Run ##########
 
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=8
 export PICKLE_DIR="$SC15/Output"    # save to scratch space
 
 conda activate tardis 
