@@ -88,7 +88,6 @@ with open('blondin_compare_06.csvy', 'w') as fh:
 epochs = np.array([5, 10, 15, 20])*u.d
 velocity_grid = np.arange(10000, 26500, 500)*u.km/u.s
 
-
 lbols = np.array([3.05e+42, 8.91e+42, 1.10e+43, 1.00e+43])*u.erg/u.s
 
 model_grid = np.array(np.empty((epochs.shape[0]*velocity_grid.shape[0], 3)))
@@ -119,7 +118,6 @@ def run_tardis_model(params, pickled=False):
         hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
         hdf.put('ion_num_dens', sim.plasma.ion_number_density)
         hdf.put('electron_dens', sim.plasma.electron_densities)
-
     if pickled:
         import pickle
         if "PICKLE_DIR" not in os.environ:
