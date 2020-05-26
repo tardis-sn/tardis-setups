@@ -13,7 +13,6 @@ import base64
 import numpy as np
 from tardis.io.config_reader import Configuration
 from tardis.simulation import Simulation
-from multiprocessing import Pool
 
 
 pattern_remove_bracket = re.compile('\[.+\]')
@@ -144,12 +143,12 @@ def run_final_models_plus_pickle(params, fname='blondin_model_compare_06.yml'):
     return 1
 
 
-pool = Pool(4)
 final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (10*u.d, lbols[1], 17000.*u.km/u.s),
                 (15*u.d, lbols[2], 10000.*u.km/u.s),
                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
 
-pool.map(run_final_models_plus_pickle, final_params)
+for params in final_params:
+    run_final_models_plus_pickle(params)
 
 sys.exit(0)
