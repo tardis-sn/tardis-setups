@@ -5,7 +5,7 @@ supernova:
   luminosity_requested: 9.44 log_lsun
   time_explosion: 15 day
 
-atom_data: kurucz_cd23_latest.h5
+atom_data: !ENV ${ATOM_DATA}
 
 csvy_model: blondin_compare_06.csvy
 

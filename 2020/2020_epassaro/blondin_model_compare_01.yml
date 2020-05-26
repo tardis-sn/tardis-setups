@@ -5,8 +5,7 @@ supernova:
   luminosity_requested: 9.44 log_lsun
   time_explosion: 13 day
 
-
-atom_data: kurucz_cd23_chianti_H_He.h5
+atom_data: !ENV ${ATOM_DATA}
 
 csvy_model: blondin_compare_01.csvy
 
@@ -31,7 +30,7 @@ montecarlo:
     damping_constant: 0.5
     threshold: 0.05
     fraction: 0.8
-    
+
     # t_inner:
     #   damping_constant: 0.0
 
@@ -41,4 +40,3 @@ spectrum:
   num: 10000
   integrated:
     interpolate_shells: 80
-  
