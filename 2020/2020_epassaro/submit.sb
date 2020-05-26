@@ -11,12 +11,11 @@
 ########## Command Lines to Run ##########
 
 export OMP_NUM_THREADS=16
-export OPENBLAS_NUM_THREADS=1
 export PICKLE_DIR="$SC15/Output"    # save to scratch space
 
 conda activate tardis 
-cd Documents/tardis-setups/2020/2020_epassaro            ### change to the directory where your code is located
+cd Documents/tardis-setups/2020/2020_epassaro       ### change to the directory where your code is located
 
-srun -n 1 --exclusive bash -c "run_model_toy06.py"       ### call your executable (similar to mpirun)
+srun -n 1 --exclusive run_model_toy06.py            ### call your executable (similar to mpirun)
 
 wait
