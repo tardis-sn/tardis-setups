@@ -1,4 +1,4 @@
----
+9---
 datatype:
   fields:
   - desc: velocities of shell outer bounderies.
@@ -28,7 +28,7 @@ description: Converted snia_toy06.dat to csvy format
 model_density_time_0: 2.0 d
 model_isotope_time_0: 0. d
 tardis_model_config_version: v1.0
-v_inner_boundary: 10000 km/s
+v_inner_boundary: 9000 km/s
 v_outer_boundary: 35000 km/s
 
 ---
