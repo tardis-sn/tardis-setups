@@ -99,7 +99,7 @@ for i, epoch in enumerate(epochs):
 print(len(model_grid))
 
 
-def run_tardis_model(params):
+def run_tardis_model(params, pickled=False):
     model_config = Configuration.from_yaml('blondin_model_compare_06.yml')
     model_config.model.v_inner_boundary = params[2]
     model_config.model.v_outer_boundary = 35000*u.km/u.s
@@ -119,28 +119,18 @@ def run_tardis_model(params):
         hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
         hdf.put('ion_num_dens', sim.plasma.ion_number_density)
         hdf.put('electron_dens', sim.plasma.electron_densities)
-    return 1
 
+    if pickled:
+        import pickle
+        if "PICKLE_DIR" not in os.environ:
+            dump = 'Output/Toy_06/toy06_t{}_v{}.pickle'.format(
+                params[0].value, params[2].value)
+        else:
+            dump = os.path.join(os.environ['PICKLE_DIR'], 'toy06_t{}_v{}.pickle'.format(
+                params[0].value, params[2].value))
+        with open(dump, 'wb') as dumpfile:
+            pickle.dump(sim, dumpfile)
 
-def run_final_models_plus_pickle(params, fname='blondin_model_compare_06.yml'):
-    model_config = Configuration.from_yaml(fname)
-    model_config.model.v_inner_boundary = params[2]
-    model_config.model.v_outer_boundary = 35000*u.km/u.s
-    model_config.supernova.luminosity_requested = params[1]
-    model_config.supernova.time_explosion = params[0]
-    sim = Simulation.from_config(model_config)
-    print(sim.model.v_boundary_inner)
-    sim.run()
-
-    import pickle
-    if "PICKLE_DIR" not in os.environ:
-        dump = 'Output/Toy_06/toy06_t{}_v{}.pickle'.format(
-            params[0].value, params[2].value)
-    else:
-        dump = os.path.join(os.environ['PICKLE_DIR'], 'toy06_t{}_v{}.pickle'.format(
-            params[0].value, params[2].value))
-    with open(dump, 'wb') as dumpfile:
-        pickle.dump(sim, dumpfile)
     return 1
 
 
@@ -156,6 +146,6 @@ final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
 
 for params in final_params:
-    run_tardis_model(params)
+    run_tardis_model(params, pickled=True)
 
 sys.exit(0)
