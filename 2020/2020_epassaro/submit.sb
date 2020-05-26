@@ -5,16 +5,16 @@
 #SBATCH --nodes=1                   # number of different nodes - could be an exact number or a range of nodes (same as -N)
 #SBATCH --ntasks=1                  # number of tasks - how many tasks (nodes) that you require (same as -n)
 #SBATCH --cpus-per-task=32          # number of CPUs (or cores) per task (same as -c)
-#SBATCH --mem-per-cpu=1G            # memory required per allocated CPU (or core) - amount of memory (in bytes)
-#SBATCH --job-name TARDIS_SIMU      # you can give your job a name for easier identification (same as -J)
+#SBATCH --mem-per-cpu=500M          # memory required per allocated CPU (or core) - amount of memory (in bytes)
+#SBATCH --job-name TARDIS_SIM       # you can give your job a name for easier identification (same as -J)
  
 ########## Command Lines to Run ##########
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export ATOM_DATA="kurucz_cd23_latest.h5"
 export PICKLE_DIR="$SC15/Output"    # save to scratch space
 
 cd Documents/tardis-setups/2020/2020_epassaro       ### change to the directory where your code is located
 conda activate tardis
 
 srun -n 1 run_model_toy06.py                        ### call your executable (similar to mpirun)
-

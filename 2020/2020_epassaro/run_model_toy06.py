@@ -13,6 +13,7 @@ import base64
 import numpy as np
 from tardis.io.config_reader import Configuration
 from tardis.simulation import Simulation
+from util import parse_config
 
 
 pattern_remove_bracket = re.compile('\[.+\]')
@@ -76,7 +77,7 @@ def read_blondin_toymodel(fname):
 
 blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat')
 
-blondin_dict['v_inner_boundary'] = '9000 km/s'
+blondin_dict['v_inner_boundary'] = '10000 km/s'
 blondin_dict['v_outer_boundary'] = '35000 km/s'
 blondin_dict['model_isotope_time_0'] = '0. d'
 csvy_file = '---\n{0}\n---\n{1}'.format(yaml.dump(
@@ -143,12 +144,18 @@ def run_final_models_plus_pickle(params, fname='blondin_model_compare_06.yml'):
     return 1
 
 
+if 'ATOM_DATA' in os.environ:
+    parse_config('blondin_model_compare_06.yml')
+else:
+    print('\n*** error! *** ATOM_DATA environment variable is not set.')
+    sys.exit(1)
+
 final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (10*u.d, lbols[1], 17000.*u.km/u.s),
                 (15*u.d, lbols[2], 10000.*u.km/u.s),
                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
 
 for params in final_params:
-    run_final_models_plus_pickle(params)
+    run_tardis_model(params)
 
 sys.exit(0)
