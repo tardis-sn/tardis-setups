@@ -31,3 +31,9 @@ sbatch submit.sb run_model_toy06.py
 ```
 scontrol show job <JOB_ID>
 ```
+
+### Watch logfile
+
+```
+tail -f slurm-<JOB_ID>.out
+```
