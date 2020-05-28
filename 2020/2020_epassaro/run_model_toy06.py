@@ -123,6 +123,8 @@ def run_tardis_model(params, pickled=False):
         hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
         hdf.put('ion_number_density', sim.plasma.ion_number_density)
         hdf.put('electron_densities', sim.plasma.electron_densities)
+        hdf.put('t_rad', pd.Series(sim.plasma.t_rad))
+        hdf.put('r_inner_cgs', pd.Series(sim.runner.r_inner_cgs))
 
     if pickled:
         import pickle
