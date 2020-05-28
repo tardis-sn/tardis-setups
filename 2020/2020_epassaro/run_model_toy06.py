@@ -128,14 +128,14 @@ def run_tardis_model(params, pickled=False):
             os.makedirs(pickle_full_path, exist_ok=True)
 
             dump = '{}/toy06_t{}_v{}.pickle'.format(
-                pickle_full_path, params[0].value, params[2].value))
+                pickle_full_path, params[0].value, params[2].value)
         with open(dump, 'wb') as dumpfile:
             pickle.dump(sim, dumpfile)
 
     return 1
 
 
-final_params=[(5*u.d, lbols[0],  20500.*u.km/u.s),
+final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (10*u.d, lbols[1], 17000.*u.km/u.s),
                 (15*u.d, lbols[2], 10000.*u.km/u.s),
                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
