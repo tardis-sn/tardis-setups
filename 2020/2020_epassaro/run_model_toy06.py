@@ -110,14 +110,8 @@ def run_tardis_model(params, pickled=False):
     fname = 'Output/Toy_06/toy06_t{}_v{}.hdf'.format(
         params[0].value, params[2].value)
 
-    with pd.HDFStore(fname) as hdf:
-        hdf.put('wavelength', pd.Series(sim.runner.spectrum.wavelength.value))
-        hdf.put('lum', pd.Series(
-            sim.runner.spectrum_integrated.luminosity_density_lambda.value))
-        hdf.put('w', pd.Series(sim.plasma.w))
-        hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
-        hdf.put('ion_num_dens', sim.plasma.ion_number_density)
-        hdf.put('electron_dens', sim.plasma.electron_densities)
+    sim.to_hdf(fname)
+
     if pickled:
         import pickle
         if "PICKLE_DIR" not in os.environ:
