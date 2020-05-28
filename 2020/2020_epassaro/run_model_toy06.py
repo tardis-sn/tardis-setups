@@ -121,7 +121,7 @@ def run_tardis_model(params, pickled=False):
             sim.runner.spectrum_integrated.luminosity_density_lambda.value))
         hdf.put('w', pd.Series(sim.plasma.w))
         hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
-        hdf.put('ion_num_density', sim.plasma.ion_number_density)
+        hdf.put('ion_number_density', sim.plasma.ion_number_density)
         hdf.put('electron_densities', sim.plasma.electron_densities)
 
     if pickled:
