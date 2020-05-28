@@ -106,8 +106,12 @@ def run_tardis_model(params, pickled=False):
     sim = Simulation.from_config(model_config)
     # print(sim.model.v_boundary_inner)
     sim.run()
-    fname = 'Output/Toy_06/toy06_t{}_v{}.hdf'.format(
-        params[0].value, params[2].value)
+
+    atom_dir = model_config.atom_data.strip('.h5')
+    os.makedirs('Output', 'Toy_06', atom_dir)
+
+    fname = 'Output/Toy_06/{}/toy06_t{}_v{}.h5'.format(
+        atom_dir, params[0].value, params[2].value)
 
     sim.to_hdf(fname)
 
@@ -117,7 +121,9 @@ def run_tardis_model(params, pickled=False):
             dump = 'Output/Toy_06/toy06_t{}_v{}.pickle'.format(
                 params[0].value, params[2].value)
         else:
-            dump = os.path.join(os.environ['PICKLE_DIR'], 'toy06_t{}_v{}.pickle'.format(
+            os.makedirs(os.environ['PICKLE_DIR'], 'Toy_06', atom_dir)
+            dump = os.path.join(os.environ['PICKLE_DIR'], 'Toy_06', atom_dir,
+                                'toy06_t{}_v{}.pickle'.format(
                 params[0].value, params[2].value))
         with open(dump, 'wb') as dumpfile:
             pickle.dump(sim, dumpfile)
