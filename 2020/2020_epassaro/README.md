@@ -9,14 +9,15 @@ Based on Andreas Flörs [scripts and configuration files](https://github.com/tar
 
 - `atom_data` from YAML configuration file will be replaced by the `ATOM_DATA` environment variable. 
 
-- Pickled objects are saved to the `PICKLE_DIR` variable exported in the `.sb` files. If not defined, will be saved to the `Output` folder alongside the HDF5 files.
-
 - `.csvy` files are modified by the Python scripts, so don't try to edit them manually unless you are sure that fields are not overwritten by the script, for example `v_inner_boundary`.
+
+- Pickled objects are saved to the `PICKLE_DIR` variable exported in the `.sb` files. If not defined, will be saved to the `Output` folder alongside the HDF5 files.
 
 - Merged the two run model functions into a single one with `pickled=True` parameter.
 
 - Removed the multithread `Pool` at the end of the scripts.
 
+- Added a script to sync `Output` folder from MSU ICER HPCC to your local computer.
 
 ## Usage example (SLURM)
 
