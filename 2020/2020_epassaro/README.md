@@ -7,7 +7,7 @@ Based on Andreas Flörs [scripts and configuration files](https://github.com/tar
 
 ## Notes
 
-- `atom_data` from YAML configuration file will be replaced by the ATOM_DATA environment variable. 
+- `atom_data` from YAML configuration file will be replaced by the `ATOM_DATA` environment variable. 
 
 - Pickled objects are saved to the `PICKLE_DIR` variable exported in the `.sb` files. If not defined, will be saved to the `Output` folder alongside the HDF5 files.
 
