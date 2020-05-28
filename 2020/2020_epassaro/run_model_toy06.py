@@ -13,8 +13,6 @@ import base64
 import numpy as np
 from tardis.io.config_reader import Configuration
 from tardis.simulation import Simulation
-from util import parse_config
-
 
 pattern_remove_bracket = re.compile('\[.+\]')
 t0_pattern = re.compile('tend = (.+)\n')
@@ -95,7 +93,7 @@ model_grid = []
 for i, epoch in enumerate(epochs):
     for j, velocity in enumerate(velocity_grid):
         model_grid.append((epoch, lbols[i], velocity-2000*u.km/u.s*i))
-print(len(model_grid))
+# print(len(model_grid))
 
 
 def run_tardis_model(params, pickled=False):
@@ -104,8 +102,9 @@ def run_tardis_model(params, pickled=False):
     model_config.model.v_outer_boundary = 35000*u.km/u.s
     model_config.supernova.luminosity_requested = params[1]
     model_config.supernova.time_explosion = params[0]
+    model_config.atom_data = os.environ['ATOM_DATA']
     sim = Simulation.from_config(model_config)
-    print(sim.model.v_boundary_inner)
+    # print(sim.model.v_boundary_inner)
     sim.run()
     fname = 'Output/Toy_06/toy06_t{}_v{}.hdf'.format(
         params[0].value, params[2].value)
@@ -125,12 +124,6 @@ def run_tardis_model(params, pickled=False):
 
     return 1
 
-
-if 'ATOM_DATA' in os.environ:
-    parse_config('blondin_model_compare_06.yml')
-else:
-    print('\n*** error! *** ATOM_DATA environment variable is not set.')
-    sys.exit(1)
 
 final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (10*u.d, lbols[1], 17000.*u.km/u.s),
