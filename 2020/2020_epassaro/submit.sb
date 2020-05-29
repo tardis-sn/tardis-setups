@@ -12,6 +12,7 @@
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PICKLE_DIR="$SCRATCH"                        ### save pickled data to scratch space
+export XUVTOP="$HOME/Documents/chianti"             ### path to CHIANTI database
 export CARSUS_OUT="$HOME/Downloads/tardis-data/"    ### save files created by `create_atom_data.py`
 
 cd $WORK_DIR                                        ### change to the directory where your code is located
