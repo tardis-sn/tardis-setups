@@ -36,6 +36,7 @@ export XUVTOP=$HOME/Documents/chianti
 sbatch submit.sb run_model_<MODEL_NAME>.py <atomic_data_file> 
 ```
 
+### Create atomic data
 ```
 sbatch submit.sb create_atom_data.py <SELECTED_IONS>
 ```
