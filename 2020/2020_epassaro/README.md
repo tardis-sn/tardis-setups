@@ -23,6 +23,7 @@ Based on Andreas Flörs [scripts and configuration files](https://github.com/tar
 ```
 cd $HOME/Documents
 wget http://www.chiantidatabase.org/download/CHIANTI_9.0.1_data.tar.gz
+mkdir chianti
 tar -xvz CHIANTI_9.0.1_data.tar.gz -C chianti
 export XUVTOP=$HOME/Documents/chianti 
 ```
