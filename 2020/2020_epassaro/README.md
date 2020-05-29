@@ -16,16 +16,6 @@ Based on Andreas Flörs [scripts and configuration files](https://github.com/tar
 
 - Added a script to sync `Output` folder from MSU ICER HPCC to your local computer.
 
-## Usage examples (SLURM)
-
-### Run
-
-```
-sbatch submit.sb run_model_<MODEL_NAME>.py <atomic_data_file> 
-```
-
-### Custom atomic data files
-
 - Currently we are using the experimental branch `chianti-hdf-new` to make the atomic data files (PR [#152](https://github.com/tardis-sn/carsus/pull/152)).
 
 - Remember to download and extract the Chianti Database if you plan to create new atomic data files:
@@ -37,7 +27,13 @@ tar -xvz CHIANTI_9.0.1_data.tar.gz -C chianti
 export XUVTOP=$HOME/Documents/chianti 
 ```
 
-- Finally, to run the job:
+## Usage examples (SLURM)
+
+### Run models
+
+```
+sbatch submit.sb run_model_<MODEL_NAME>.py <atomic_data_file> 
+```
 
 ```
 sbatch submit.sb create_atom_data.py <SELECTED_IONS>
