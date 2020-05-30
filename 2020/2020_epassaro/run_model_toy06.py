@@ -93,7 +93,6 @@ model_grid = []
 for i, epoch in enumerate(epochs):
     for j, velocity in enumerate(velocity_grid):
         model_grid.append((epoch, lbols[i], velocity-2000*u.km/u.s*i))
-# print(len(model_grid))
 
 
 def run_tardis_model(params, pickled=False):
@@ -104,7 +103,6 @@ def run_tardis_model(params, pickled=False):
     model_config.supernova.time_explosion = params[0]
     model_config.atom_data = os.environ['ATOM_DATA']
     sim = Simulation.from_config(model_config)
-    # print(sim.model.v_boundary_inner)
     sim.run()
 
     atom_dir = model_config.atom_data.strip('.h5')
