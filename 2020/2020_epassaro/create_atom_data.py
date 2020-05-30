@@ -25,12 +25,12 @@ parsers = []
 parsers.append(NISTWeightsComp(gfall_ions))
 parsers.append(NISTIonizationEnergies(gfall_ions))
 parsers.append(GFALLReader('/tmp/gfall.dat', gfall_ions))
-parsers.append(KnoxLongZeta(os.path.join(CARSUS_DIR, 
-                            'data/knox_long_recombination_zeta.dat')))
+parsers.append(KnoxLongZeta(os.path.join(CARSUS_DIR,
+                                         'data/knox_long_recombination_zeta.dat')))
 
 if chianti_ions:
     parsers.append(ChiantiReader(chianti_ions, priority=20))
-    ions_string = chianti_ions.replace(' ', '_').replace(',', '')
+    ions_string = chianti_ions.replace(' ', '_').replace(';', '')
     output_file = 'kurucz_cd23_latest_chianti_{}.h5'.format(ions_string)
 else:
     output_file = 'kurucz_cd23_latest.h5'
@@ -41,4 +41,4 @@ atom_data = TARDISAtomData(*parsers)
 atom_data.to_hdf(fname)
 
 
-sys.exit(0) 
+sys.exit(0)

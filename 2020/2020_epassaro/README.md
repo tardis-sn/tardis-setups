@@ -41,6 +41,8 @@ sbatch submit.sb run_model_<MODEL_NAME>.py <atomic_data_file>
 sbatch submit.sb create_atom_data.py <SELECTED_IONS>
 ```
 
+> For example: `C 1-4; Si 1, Mg 1`
+
 
 ### Check job status
 
