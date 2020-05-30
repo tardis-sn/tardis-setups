@@ -25,7 +25,7 @@ cd $HOME/Documents
 wget http://www.chiantidatabase.org/download/CHIANTI_9.0.1_data.tar.gz
 mkdir chianti
 tar -xvz CHIANTI_9.0.1_data.tar.gz -C chianti
-export XUVTOP=$HOME/Documents/chianti 
+echo 'export XUVTOP=$HOME/Documents/chianti' >> ~/.bashrc
 ```
 
 ## Usage examples (SLURM)
