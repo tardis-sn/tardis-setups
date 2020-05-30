@@ -14,12 +14,12 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export PICKLE_DIR="$SCRATCH"                        ### save pickled data to scratch space
 export CARSUS_OUT="$HOME/Downloads/tardis-data/"    ### save files created by `create_atom_data.py`
 
-if [[ $1 == run_model_*.py ]]; then
+if [[ "$1" == run_model_*.py ]]; then
     conda activate tardis
 fi
 
-if [[ $1 == create_atom_data.py ]]; then
+if [[ "$1" == create_atom_data.py ]]; then
     conda activate carsus
 fi
 
-srun -n 1 $@     	                                ### call your executable (similar to mpirun)
+srun -n 1 "$@"     	                                ### call your executable (similar to mpirun)
