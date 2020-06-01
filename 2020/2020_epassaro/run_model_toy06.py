@@ -141,10 +141,12 @@ for i, epoch in enumerate(epochs):
     for j, velocity in enumerate(velocity_grid):
         model_grid.append((epoch, lbols[i], velocity-2000*u.km/u.s*i))
 
-final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
-                (10*u.d, lbols[1], 17000.*u.km/u.s),
-                (15*u.d, lbols[2], 10000.*u.km/u.s),
-                (20*u.d, lbols[3], 5500.*u.km/u.s)]
+# final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
+#                (10*u.d, lbols[1], 17000.*u.km/u.s),
+#                (15*u.d, lbols[2], 10000.*u.km/u.s),
+#                (20*u.d, lbols[3], 5500.*u.km/u.s)]
+
+final_params = [(15*u.d, lbols[2], 10000.*u.km/u.s)]
 
 for params in final_params:
     run_tardis_model(params, pickled=True)
