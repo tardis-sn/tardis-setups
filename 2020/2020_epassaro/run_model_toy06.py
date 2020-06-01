@@ -81,6 +81,10 @@ def run_tardis_model(params, pickled=False):
     model_config.supernova.luminosity_requested = params[1]
     model_config.supernova.time_explosion = params[0]
     model_config.atom_data = sys.argv[1]
+
+    if sys.argv[2]:
+        model_config.montecarlo.iterations = int(sys.argv[2])
+
     sim = Simulation.from_config(model_config)
     sim.run()
 
