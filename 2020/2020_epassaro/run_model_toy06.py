@@ -42,6 +42,7 @@ def read_blondin_toymodel(fname):
     blondin_csv.rename(columns=rename_col_dict, inplace=True)
     blondin_csv.iloc[:, 3:] = blondin_csv.iloc[:, 3:].divide(
         blondin_csv.iloc[:, 3:].sum(axis=1), axis=0)
+
     # changing velocities to outer boundary
     new_velocities = 0.5 * \
         (blondin_csv.velocity.iloc[:-1].values +
@@ -71,28 +72,6 @@ def read_blondin_toymodel(fname):
     blondin_dict['datatype'] = {'fields': blondin_dict_fields}
 
     return blondin_dict, blondin_csv
-
-
-blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat')
-
-blondin_dict['v_inner_boundary'] = '10000 km/s'
-blondin_dict['v_outer_boundary'] = '35000 km/s'
-blondin_dict['model_isotope_time_0'] = '0. d'
-csvy_file = '---\n{0}\n---\n{1}'.format(yaml.dump(
-    blondin_dict, default_flow_style=False), blondin_csv.to_csv(index=False))
-
-with open('blondin_compare_06.csvy', 'w') as fh:
-    fh.write(csvy_file)
-epochs = np.array([5, 10, 15, 20])*u.d
-velocity_grid = np.arange(10000, 26500, 500)*u.km/u.s
-
-lbols = np.array([3.05e+42, 8.91e+42, 1.10e+43, 1.00e+43])*u.erg/u.s
-
-model_grid = np.array(np.empty((epochs.shape[0]*velocity_grid.shape[0], 3)))
-model_grid = []
-for i, epoch in enumerate(epochs):
-    for j, velocity in enumerate(velocity_grid):
-        model_grid.append((epoch, lbols[i], velocity-2000*u.km/u.s*i))
 
 
 def run_tardis_model(params, pickled=False):
@@ -142,7 +121,27 @@ def run_tardis_model(params, pickled=False):
     return 1
 
 
-final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
+blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat')
+blondin_dict['v_inner_boundary'] = '9000 km/s'
+blondin_dict['v_outer_boundary'] = '35000 km/s'
+blondin_dict['model_isotope_time_0'] = '0. d'
+csvy_file = '---\n{0}\n---\n{1}'.format(yaml.dump(
+    blondin_dict, default_flow_style=False), blondin_csv.to_csv(index=False))
+
+with open('blondin_compare_06.csvy', 'w') as fh:
+    fh.write(csvy_file)
+
+epochs = np.array([5, 10, 15, 20])*u.d
+velocity_grid = np.arange(10000, 26500, 500)*u.km/u.s
+lbols = np.array([3.05e+42, 8.91e+42, 1.10e+43, 1.00e+43])*u.erg/u.s
+
+model_grid = np.array(np.empty((epochs.shape[0]*velocity_grid.shape[0], 3)))
+model_grid = []
+for i, epoch in enumerate(epochs):
+    for j, velocity in enumerate(velocity_grid):
+        model_grid.append((epoch, lbols[i], velocity-2000*u.km/u.s*i))
+
+ final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
                 (10*u.d, lbols[1], 17000.*u.km/u.s),
                 (15*u.d, lbols[2], 10000.*u.km/u.s),
                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
