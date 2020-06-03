@@ -82,8 +82,9 @@ def run_tardis_model(params, pickled=False):
     model_config.supernova.time_explosion = params[0]
     model_config.atom_data = sys.argv[1]
 
-    if sys.argv[2]:
-        model_config.montecarlo.iterations = int(sys.argv[2])
+    # Run only one iteration for Chianti models
+    if 'chianti' in model_config.atom_data:
+        model_config.montecarlo.iterations = 1
 
     sim = Simulation.from_config(model_config)
     sim.run()
@@ -96,16 +97,20 @@ def run_tardis_model(params, pickled=False):
     fname = '{}/toy06_t{}_v{}.h5'.format(
         full_path, params[0].value, params[2].value)
 
-    with pd.HDFStore(fname) as hdf:
-        hdf.put('wavelength', pd.Series(sim.runner.spectrum.wavelength.value))
-        hdf.put('luminosity_density_lambda', pd.Series(
-            sim.runner.spectrum_integrated.luminosity_density_lambda.value))
-        hdf.put('w', pd.Series(sim.plasma.w))
-        hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
-        hdf.put('ion_number_density', sim.plasma.ion_number_density)
-        hdf.put('electron_densities', sim.plasma.electron_densities)
-        hdf.put('t_rad', pd.Series(sim.plasma.t_rad))
-        hdf.put('r_inner_cgs', pd.Series(sim.runner.r_inner_cgs))
+    if 'chianti' not in model_config.atom_data:
+        sim.to_hdf(fname)
+    else:
+        with pd.HDFStore(fname) as hdf:
+            hdf.put('wavelength', pd.Series(
+                sim.runner.spectrum.wavelength.value))
+            hdf.put('luminosity_density_lambda', pd.Series(
+                sim.runner.spectrum_integrated.luminosity_density_lambda.value))
+            hdf.put('w', pd.Series(sim.plasma.w))
+            hdf.put('t_electrons', pd.Series(sim.plasma.t_electrons))
+            hdf.put('ion_number_density', sim.plasma.ion_number_density)
+            hdf.put('electron_densities', sim.plasma.electron_densities)
+            hdf.put('t_rad', pd.Series(sim.plasma.t_rad))
+            hdf.put('r_inner_cgs', pd.Series(sim.runner.r_inner_cgs))
 
     if pickled:
         import pickle
