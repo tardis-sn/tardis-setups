@@ -19,10 +19,10 @@ except IndexError:
     chianti_ions = None
 
 parsers = []
-parsers.append(NISTWeightsComp(GFALL_IONS))
+parsers.append(NISTWeightsComp())
 parsers.append(NISTIonizationEnergies(GFALL_IONS))
-parsers.append(KnoxLongZeta())
 parsers.append(GFALLReader(GFALL_IONS))
+parsers.append(KnoxLongZeta())
 
 if chianti_ions:
     parsers.append(ChiantiReader(chianti_ions, priority=20))
