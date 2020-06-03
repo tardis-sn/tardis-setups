@@ -2,15 +2,13 @@
 
 import os
 import sys
-import pandas as pd
 import re
-import numpy as np
 import yaml
+import pandas as pd
+import numpy as np
 from tardis.util.base import parse_quantity
 from tardis import run_tardis
 from astropy import units as u
-import base64
-import numpy as np
 from tardis.io.config_reader import Configuration
 from tardis.simulation import Simulation
 
@@ -74,7 +72,7 @@ def read_blondin_toymodel(fname):
     return blondin_dict, blondin_csv
 
 
-def run_tardis_model(params, pickled=False):
+def run_tardis_model(params):
     model_config = Configuration.from_yaml('blondin_model_compare_06.yml')
     model_config.model.v_inner_boundary = params[2]
     model_config.model.v_outer_boundary = 35000*u.km/u.s
@@ -90,7 +88,6 @@ def run_tardis_model(params, pickled=False):
     sim.run()
 
     atom_dir = model_config.atom_data.strip('.h5')
-
     full_path = os.path.join('Output', 'Toy_06', atom_dir)
     os.makedirs(full_path, exist_ok=True)
 
@@ -112,21 +109,6 @@ def run_tardis_model(params, pickled=False):
             hdf.put('t_rad', pd.Series(sim.plasma.t_rad))
             hdf.put('r_inner_cgs', pd.Series(sim.runner.r_inner_cgs))
 
-    if pickled:
-        import pickle
-        if "PICKLE_DIR" not in os.environ:
-            dump = '{}/toy06_t{}_v{}.pickle'.format(
-                full_path, params[0].value, params[2].value)
-        else:
-            pickle_full_path = os.path.join(
-                os.environ['PICKLE_DIR'], 'Toy_06', atom_dir)
-            os.makedirs(pickle_full_path, exist_ok=True)
-
-            dump = '{}/toy06_t{}_v{}.pickle'.format(
-                pickle_full_path, params[0].value, params[2].value)
-        with open(dump, 'wb') as dumpfile:
-            pickle.dump(sim, dumpfile)
-
     return 1
 
 
@@ -135,29 +117,23 @@ blondin_dict['v_inner_boundary'] = '9000 km/s'
 blondin_dict['v_outer_boundary'] = '35000 km/s'
 blondin_dict['model_isotope_time_0'] = '0. d'
 csvy_file = '---\n{0}\n---\n{1}'.format(yaml.dump(
-    blondin_dict, default_flow_style=False), blondin_csv.to_csv(index=False))
+    blondin_dict, default_flow_style=False),
+    blondin_csv.to_csv(index=False))
 
+# Create CSVY file
 with open('blondin_compare_06.csvy', 'w') as fh:
     fh.write(csvy_file)
 
-epochs = np.array([5, 10, 15, 20])*u.d
-velocity_grid = np.arange(10000, 26500, 500)*u.km/u.s
 lbols = np.array([3.05e+42, 8.91e+42, 1.10e+43, 1.00e+43])*u.erg/u.s
 
-model_grid = np.array(np.empty((epochs.shape[0]*velocity_grid.shape[0], 3)))
-model_grid = []
-for i, epoch in enumerate(epochs):
-    for j, velocity in enumerate(velocity_grid):
-        model_grid.append((epoch, lbols[i], velocity-2000*u.km/u.s*i))
-
 # final_params = [(5*u.d, lbols[0],  20500.*u.km/u.s),
-#                (10*u.d, lbols[1], 17000.*u.km/u.s),
-#                (15*u.d, lbols[2], 10000.*u.km/u.s),
-#                (20*u.d, lbols[3], 5500.*u.km/u.s)]
+#                 (10*u.d, lbols[1], 17000.*u.km/u.s),
+#                 (15*u.d, lbols[2], 10000.*u.km/u.s),
+#                 (20*u.d, lbols[3], 5500.*u.km/u.s)]
 
 final_params = [(15*u.d, lbols[2], 10000.*u.km/u.s)]
 
 for params in final_params:
-    run_tardis_model(params, pickled=True)
+    run_tardis_model(params)
 
 sys.exit(0)
