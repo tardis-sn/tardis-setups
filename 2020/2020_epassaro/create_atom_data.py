@@ -22,10 +22,10 @@ parsers = []
 parsers.append(NISTWeightsComp(GFALL_IONS))
 parsers.append(NISTIonizationEnergies(GFALL_IONS))
 parsers.append(KnoxLongZeta())
-parsers.append(GFALLReader(ions=GFALL_IONS))
+parsers.append(GFALLReader(GFALL_IONS))
 
 if chianti_ions:
-    parsers.append(ChiantiReader(ions=chianti_ions, priority=20))
+    parsers.append(ChiantiReader(chianti_ions, priority=20))
     ions_string = chianti_ions.replace(' ', '_').replace(';', '')
     output_file = 'kurucz_cd23_latest_chianti_{}.h5'.format(ions_string)
 else:
