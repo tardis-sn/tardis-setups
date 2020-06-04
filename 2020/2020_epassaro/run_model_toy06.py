@@ -68,7 +68,7 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
     blondin_dict_fields.append(
         dict(name='t_rad', unit='K', desc='radiative temperature.'))
 
-    if t_inner and w:
+    if t_inner is not None:
         blondin_dict_fields.append(
             dict(name='t_inner', unit='K', desc='inner boundary temperature.'))
         blondin_dict_fields.append(
