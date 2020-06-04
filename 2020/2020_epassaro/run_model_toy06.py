@@ -51,7 +51,7 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
 
     if t_inner is not None:
         blondin_csv['t_inner'] = t_inner.iloc[-1]
-        blondin_csv['w'] = w.iloc[-1]
+        # blondin_csv['w'] = w.iloc[-1]
 
     with open(fname, 'r') as fh:
         t0_string = t0_pattern.findall(fh.read())[0]
@@ -71,8 +71,8 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
     if t_inner is not None:
         blondin_dict_fields.append(
             dict(name='t_inner', unit='K', desc='inner boundary temperature.'))
-        blondin_dict_fields.append(
-            dict(name='w', desc='dilution factor.'))
+        # blondin_dict_fields.append(
+        #    dict(name='w', desc='dilution factor.'))
 
     for abund in blondin_csv.columns[3:]:
         blondin_dict_fields.append(
