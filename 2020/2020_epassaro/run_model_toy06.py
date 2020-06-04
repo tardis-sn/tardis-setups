@@ -49,7 +49,7 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
         (new_velocities, [2 * new_velocities[-1] - new_velocities[-2]]))
     blondin_csv['velocity'] = new_velocities
 
-    if t_inner and w:
+    if t_inner is not None:
         blondin_csv['t_inner'] = t_inner.iloc[-1]
         blondin_csv['w'] = w.iloc[-1]
 
