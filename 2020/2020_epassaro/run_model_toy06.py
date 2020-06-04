@@ -16,7 +16,7 @@ pattern_remove_bracket = re.compile('\[.+\]')
 t0_pattern = re.compile('tend = (.+)\n')
 
 
-def read_blondin_toymodel(fname, t_inner=None, w=None):
+def read_blondin_toymodel(fname, w=None):
     with open(fname, 'r') as fh:
         for line in fh:
             if line.startswith("#idx"):
@@ -49,8 +49,7 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
         (new_velocities, [2 * new_velocities[-1] - new_velocities[-2]]))
     blondin_csv['velocity'] = new_velocities
 
-    if t_inner is not None:
-        blondin_csv['t_inner'] = t_inner.iloc[-1]
+    if w is not None:
         blondin_csv['dilution_factor'] = w.iloc[-1]
 
     with open(fname, 'r') as fh:
@@ -68,9 +67,7 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
     blondin_dict_fields.append(
         dict(name='t_rad', unit='K', desc='radiative temperature.'))
 
-    if t_inner is not None:
-        blondin_dict_fields.append(
-            dict(name='t_inner', unit='K', desc='inner boundary temperature.'))
+    if w is not None:
         blondin_dict_fields.append(
             dict(name='dilution_factor', desc='dilution factor.'))
 
@@ -80,7 +77,7 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
 
     blondin_dict['datatype'] = {'fields': blondin_dict_fields}
 
-    blondin_csv = blondin_csv[['velocity', 'density', 't_rad', 't_inner', 'dilution_factor',
+    blondin_csv = blondin_csv[['velocity', 'density', 't_rad', 'dilution_factor',
                                'Ni56', 'Ti', 'Ca', 'S', 'Si', 'O', 'C']]
 
     return blondin_dict, blondin_csv
@@ -96,7 +93,9 @@ def run_tardis_model(params):
 
     # Run only one iteration for Chianti models
     if 'chianti' in model_config.atom_data:
+        t_inner = pd.read_hdf(sys.argv[2], 't_inner')
         model_config.montecarlo.iterations = 1
+        model_config.plasma.initial_t_inner = t_inner
 
     sim = Simulation.from_config(model_config)
     sim.run()
@@ -125,10 +124,8 @@ def run_tardis_model(params):
 
 
 try:
-    t_inner = pd.read_hdf(sys.argv[2], 't_inner')
     w = pd.read_hdf(sys.argv[2], 'w')
-    blondin_dict, blondin_csv = read_blondin_toymodel(
-        'snia_toy06.dat', t_inner, w)
+    blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat', w)
 
 except IndexError:
     blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat')
