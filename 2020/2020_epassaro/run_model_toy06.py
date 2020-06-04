@@ -71,7 +71,7 @@ def read_blondin_toymodel(fname, w=None):
         blondin_dict_fields.append(
             dict(name='dilution_factor', desc='dilution factor.'))
 
-    for abund in blondin_csv.columns[3:-2]:
+    for abund in blondin_csv.columns[3:-1]:
         blondin_dict_fields.append(
             dict(name=abund, desc='Fraction {0} abundance'.format(abund)))
 
@@ -93,9 +93,12 @@ def run_tardis_model(params):
 
     # Run only one iteration for Chianti models
     if 'chianti' in model_config.atom_data:
-        t_inner = pd.read_hdf(sys.argv[2], 't_inner')
-        model_config.montecarlo.iterations = 1
-        model_config.plasma.initial_t_inner = t_inner
+        try:
+            t_inner = pd.read_hdf(sys.argv[2], 't_inner')
+            model_config.montecarlo.iterations = 1
+            model_config.plasma.initial_t_inner = t_inner.iloc[-1]
+        except IndexError:
+            pass
 
     sim = Simulation.from_config(model_config)
     sim.run()
