@@ -115,7 +115,7 @@ def run_tardis_model(params):
         hdf.put('electron_densities', sim.plasma.electron_densities)
         hdf.put('t_rad', pd.Series(sim.plasma.t_rad))
         hdf.put('r_inner_cgs', pd.Series(sim.runner.r_inner_cgs))
-        't_inner', pd.Series(sim.iterations_t_inner)
+        hdf.put('t_inner', pd.Series(sim.iterations_t_inner))
 
     return 1
 
@@ -125,6 +125,7 @@ try:
     w = pd.read_hdf(sys.argv[2], 'w')
     blondin_dict, blondin_csv = read_blondin_toymodel(
         'snia_toy06.dat', t_inner, w)
+
 except IndexError:
     blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat')
 
