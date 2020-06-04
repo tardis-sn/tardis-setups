@@ -53,6 +53,9 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
         blondin_csv['t_inner'] = t_inner.iloc[-1]
         blondin_csv['dilution_factor'] = w.iloc[-1]
 
+    blondin_csv = blondin_csv[['velocity', 'density', 't_rad', 't_inner', 'dilution_factor',
+                               'Ni56', 'Ti', 'Ca', 'S', 'Si', 'O', 'C']]
+
     with open(fname, 'r') as fh:
         t0_string = t0_pattern.findall(fh.read())[0]
 
