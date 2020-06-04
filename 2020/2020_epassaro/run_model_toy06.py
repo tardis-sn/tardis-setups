@@ -68,15 +68,16 @@ def read_blondin_toymodel(fname, t_inner=None, w=None):
     blondin_dict_fields.append(
         dict(name='t_rad', unit='K', desc='radiative temperature.'))
 
+    for abund in blondin_csv.columns[3:]:
+        blondin_dict_fields.append(
+            dict(name=abund, desc='Fraction {0} abundance'.format(abund)))
+
     if t_inner is not None:
         blondin_dict_fields.append(
             dict(name='t_inner', unit='K', desc='inner boundary temperature.'))
         # blondin_dict_fields.append(
         #    dict(name='w', desc='dilution factor.'))
 
-    for abund in blondin_csv.columns[3:]:
-        blondin_dict_fields.append(
-            dict(name=abund, desc='Fraction {0} abundance'.format(abund)))
     blondin_dict['datatype'] = {'fields': blondin_dict_fields}
 
     return blondin_dict, blondin_csv
