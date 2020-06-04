@@ -16,7 +16,7 @@ pattern_remove_bracket = re.compile('\[.+\]')
 t0_pattern = re.compile('tend = (.+)\n')
 
 
-def read_blondin_toymodel(fname, w=None):
+def read_blondin_toymodel(fname, w=None, t_rad=None):
     with open(fname, 'r') as fh:
         for line in fh:
             if line.startswith("#idx"):
@@ -128,12 +128,14 @@ def run_tardis_model(params):
 
 try:
     w = pd.read_hdf(sys.argv[2], 'w')
-    blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat', w)
+    t_rad = pd.read_hdf(sys.argv[2], 't_rad')
+    blondin_dict, blondin_csv = read_blondin_toymodel(
+        'snia_toy06.dat', w, t_rad)
 
 except IndexError:
     blondin_dict, blondin_csv = read_blondin_toymodel('snia_toy06.dat')
 
-blondin_dict['v_inner_boundary'] = '9000 km/s'
+blondin_dict['v_inner_boundary'] = '10000 km/s'
 blondin_dict['v_outer_boundary'] = '35000 km/s'
 blondin_dict['model_isotope_time_0'] = '0. d'
 csvy_file = '---\n{0}\n---\n{1}'.format(yaml.dump(
