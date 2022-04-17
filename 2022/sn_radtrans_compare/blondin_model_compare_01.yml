@@ -6,7 +6,7 @@ supernova:
   time_explosion: 13 day
 
 
-atom_data: kurucz_cd23_chianti_H_He.h5
+atom_data: /home/nooreldeensalah/Downloads/tardis-data/kurucz_cd23_chianti_H_He.h5
 
 csvy_model: blondin_compare_01.csvy
 
@@ -22,7 +22,7 @@ montecarlo:
   seed: 23111963
   no_of_packets: 500000
   iterations: 30
-  nthreads: 1
+  nthreads: 4
 
   last_no_of_packets: 500000
 
