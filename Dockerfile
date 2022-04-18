@@ -1,3 +1,8 @@
+# This dockerfile creates a container with the required conda environment, It also installs tardis
+# To use it run `docker build -t tardis_environment .`
+# After the image is built, run the container with `docker run -it tardis_environment /bin/bash`
+# Afterwards, run `conda activate tardis`
+
 FROM continuumio/miniconda3:4.10.3p0-alpine
 
 WORKDIR /app
