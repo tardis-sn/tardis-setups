@@ -1,12 +1,37 @@
+"""
+Tardis 2020 Example
+==========================
+
+This is the example output 16d
+"""
+
+
 from tardis import run_tardis
+from tardis.io.config_reader import Configuration
 from tardis.io.atom_data.util import download_atom_data
 import matplotlib.pyplot as plt
 
-# download_atom_data("kurucz_cd23_chianti_H_He")
+import sys
 
-sim = run_tardis(
-    "/home/blackbird/Rohith/tardis/tardis-setups/2020/2020_williamson_94I/code_comp_setups/16d.yml"
+sys.path.append("../")
+from setup_utils import config_modifier
+
+# %%
+# Uncomment this line if you need to download the dataset.
+
+
+download_atom_data("kurucz_cd23_chianti_H_He")
+
+# %%
+# Runs the example
+
+conf = Configuration.from_yaml(
+    "../../2020/2020_williamson_94I/code_comp_setups/16d.yml"
 )
+conf = config_modifier(conf)
+# %%
+sim = run_tardis(conf)
+
 
 spectrum = sim.runner.spectrum
 spectrum_virtual = sim.runner.spectrum_virtual
