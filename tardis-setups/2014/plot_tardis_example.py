@@ -10,7 +10,11 @@ from tardis import run_tardis
 from tardis.io.config_reader import Configuration
 from tardis.io.atom_data.util import download_atom_data
 import matplotlib.pyplot as plt
-import os
+
+import sys
+
+sys.path.append("../")
+from setup_utils import config_modifier
 
 # %%
 # Uncomment this line if you need to download the dataset.
@@ -20,32 +24,14 @@ download_atom_data("kurucz_cd23_chianti_H_He")
 
 # %%
 # Runs the example
-def find_file(name, path):
-    for dirpath, _, filename in os.walk(path):
-        if name in filename:
-            return os.path.join(dirpath, name)
-
-
-def config_modifier(conf):
-    conf["montecarlo"]["nthreads"] = 1
-    conf["montecarlo"]["last_no_of_packets"] = 1.0e5
-    conf["montecarlo"]["no_of_virtual_packets"] = 10
-
-    # conf["atom_data"] = os.path.join(
-    #     os.path.expanduser("~"), "Downloads", "tardis-data", conf["atom_data"]
-    # )
-    conf["atom_data"] = find_file(conf["atom_data"], "/")
-
-    return conf
-
 
 conf = Configuration.from_yaml(
     "../../2014/2014_kerzendorf_sim/appendix_A1/tardis_example.yml"
 )
-modified_conf = config_modifier(conf)
+conf = config_modifier(conf)
 
 # %%
-sim = run_tardis(modified_conf)
+sim = run_tardis(conf)
 
 
 # %%
