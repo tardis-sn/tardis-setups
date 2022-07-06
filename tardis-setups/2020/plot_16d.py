@@ -1,8 +1,12 @@
 """
-Tardis 2020 Example
+SN 1994I spectra 16 days post Explosion
 ==========================
 
-This is the example output 16d
+The following result is obtained using the configuration file from the paper
+Williamson, Marc, Kerzendorf, Wolfgang, Modjaz, Maryam 2021, ApJ,
+“Modeling Type Ic Supernovae with TARDIS: Hidden Helium in SN 1994I?” (`ADS Link`_).
+This plot shows the output obtained by TARDIS for the SN 1994I spectra 16 days post explosion.
+Please refer figure 2 from the paper to compare the results of the paper.
 """
 
 
@@ -17,17 +21,20 @@ sys.path.append("../")
 from setup_utils import config_modifier
 
 # %%
-# Uncomment this line if you need to download the dataset.
+# Comment this line if you do not need to download the dataset.
 
 
 download_atom_data("kurucz_cd23_chianti_H_He")
 
 # %%
-# Runs the example
-
 conf = Configuration.from_yaml(
     "../../2020/2020_williamson_94I/code_comp_setups/16d.yml"
 )
+
+# %%
+# Note: Here the configuration is slightly modified to allow
+# the configuration file on a computer with lower configuration.
+
 conf = config_modifier(conf)
 # %%
 sim = run_tardis(conf)

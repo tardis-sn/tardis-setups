@@ -1,4 +1,4 @@
-2020 Examples
+Year 2020 Results
 ==================
 
-Below is a gallery of examples.
+Output of configuartion files uploaded in the year 2020.
