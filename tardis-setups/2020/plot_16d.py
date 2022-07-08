@@ -1,14 +1,24 @@
 """
-SN 1994I spectra 16 days post Explosion
+Williamson et al. (2020) Figure 2 t_explosion=16 days
 ==========================
 
-The following result is obtained using the configuration file from the paper
-Williamson, Marc, Kerzendorf, Wolfgang, Modjaz, Maryam 2021, ApJ,
-“Modeling Type Ic Supernovae with TARDIS: Hidden Helium in SN 1994I?” (`ADS Link`_).
-This plot shows the output obtained by TARDIS for the SN 1994I spectra 16 days post explosion.
-Please refer figure 2 from the paper to compare the results of the paper.
 
-.._ADS Link: https://ui.adsabs.harvard.edu/abs/2021ApJ...908..150W
+Article: Williamson, Marc, Kerzendorf, Wolfgang, Modjaz, Maryam 2021, ApJ,
+“Modeling Type Ic Supernovae with TARDIS: Hidden Helium in SN 1994I?” (`ADS Link`_).
+
+Original Input Files: `YAML`_, `CSVY`_
+
+Original Dataset: Data missing
+
+Original Spectra:
+
+Notes: Please note that the spectra obtained below is obtained by using a slightly
+modified configuration file. This is done to ensure that the spectra can be
+obtained using the computers hosted by us.
+
+.. _ADS Link: https://ui.adsabs.harvard.edu/abs/2021ApJ...908..150W
+.. _YAML: https://github.com/tardis-sn/tardis-setups/blob/master/2020/2020_williamson_94I/code_comp_setups/16d.yml
+.. _CSVY: https://github.com/tardis-sn/tardis-setups/blob/master/2020/2020_williamson_94I/code_comp_setups/hach_exact_csvy_16d.csvy
 """
 
 
