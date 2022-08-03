@@ -106,6 +106,14 @@ venv.bak/
 # Mac OSX
 .DS_Store
 
+# Binary files
+*.pickle
+
+# Sphinx HTML Output
+html/
+
+# Sphinx Gallery output
+*_examples/
+
 # VScode
 .vscode/
-
