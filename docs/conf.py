@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "tardis-setups"
-copyright = "2022, Wolfgang Kerzendorf"
+copyright = "2022, TARDIS RT Collaboration"
 author = "Wolfgang Kerzendorf"
 
 
