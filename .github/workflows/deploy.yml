@@ -1,0 +1,64 @@
+name: deploy
+
+on: 
+  push:
+    branches: [master,test-flow]
+
+  repository_dispatch:
+    types: [setups-docs]
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  build:
+    name: Build docs
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Setup the tardis-setups repository
+        uses: actions/checkout@v3
+        with:
+          path: setups
+
+      - name: Setup the tardis repository
+        uses: actions/checkout@v3
+        with:
+          repository: tardis-sn/tardis
+          path: tardis
+
+      - name: Setup environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+            miniforge-variant: Mambaforge
+            miniforge-version: latest
+            activate-environment: tardis
+            auto-activate-base: false
+            use-mamba: true
+
+      - name: Create the environment
+        run: |
+          cd tardis/
+          mamba update --name tardis --file conda-linux-64.lock
+
+      - name: Setup Tardis
+        run: |
+          cd tardis/
+          pip install -e .
+
+      - name: Install Sphinx Gallery
+        run: |
+          mamba install -n tardis sphinx-gallery
+
+      - name: Create the documentation
+        run: |
+          cd setups/
+          sphinx-build -b html docs/ html/ -P
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./setups/html
+          publish_branch: gh-pages
