@@ -1,0 +1,61 @@
+# Example YAML configuration for TARDIS
+tardis_config_version: v1.0
+
+supernova:
+  #luminosity_requested: 8.770 log_lsun
+  luminosity_requested: 2.25e+42 erg/s #1.65801e+42 erg/s # 1.454801e+42 erg/s
+  luminosity_wavelength_start: 3399 angstrom
+  luminosity_wavelength_end: 8199 angstrom
+  time_explosion: 29 day 
+  #distance: 8.32 Mpc
+  #distance: 82.434 Mpc
+
+# standard atomic data base; get it from the tardis-refdata repository
+atom_data: kurucz_cd23_chianti_H_He.h5
+
+
+csvy_model: 29d.csvy 
+
+plasma:
+  initial_t_inner: 8000 K #9337.9 K #8237.9 K 
+  disable_electron_scattering: no
+  ionization: nebular
+  excitation: dilute-lte
+  # radiative_rates_type - currently supported are dilute-blackbody, detailed andblackbody
+  radiative_rates_type: dilute-blackbody
+  # line_interaction_type - currently supported are scatter, downbranch and macroatom
+  line_interaction_type: macroatom
+  #helium_treatment: recomb-nlte
+  #nlte:
+  #  species: ['He 1']
+
+montecarlo:
+  seed: 23111963
+  no_of_packets: 4.0e+4
+  iterations: 20
+  # Number of threads used in OMP mode; uncomment if you want to control the
+  # OMP behaviour via the config; otherwise the maximum available number of
+  # threads is used or the number specified in the OMP_NUM_THREADS environment
+  # variable
+  # --------
+  nthreads: 1 # was set to 64
+
+  last_no_of_packets: 1.e+5 #1.e+5 #1.e+4
+  no_of_virtual_packets: 10
+
+  convergence_strategy:
+    type: damped
+    damping_constant: 0.5
+    threshold: 0.05
+    fraction: 0.8
+    hold_iterations: 3
+    t_inner:
+      damping_constant: 0.5
+
+spectrum:
+  start: 500 angstrom
+  stop: 25000 angstrom
+  num: 10000
+  virtual:
+      virtual_packet_logging: True
+  #method: integrated
