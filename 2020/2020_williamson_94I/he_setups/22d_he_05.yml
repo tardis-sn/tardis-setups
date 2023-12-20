@@ -6,10 +6,12 @@ supernova:
   luminosity_wavelength_start: 3383 angstrom
   luminosity_wavelength_end: 10204 angstrom
   time_explosion: 22.05 day
-  distance: 8.32 Mpc
+  # The distance has been changed from 8.32 Mpc to 9.55 Mpc
+  # due to the scaling done by Hachinger et al. 2012
+  distance: 9.55 Mpc
 
 # standard atomic data base; get it from the tardis-refdata repository
-atom_data: /home/mew488/src/tardis-refdata/atom_data/kurucz_cd23_chianti_H_He.h5
+atom_data: kurucz_cd23_chianti_H_He.h5
 
 #csvy_model: /Users/marcwilliamson/Research/TARDIS/94I/nomoto_data/hach_fixed/22d.csvy
 csvy_model: 22d_He_0.05.csvy
