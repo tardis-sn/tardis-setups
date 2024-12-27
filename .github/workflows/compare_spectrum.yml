@@ -1,0 +1,113 @@
+name: Compare Spectrum
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  simulation:
+    strategy:
+      matrix:
+        tardis-version: ['release-2024.12.22', 'release-2024.12.15']
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone Tardis
+        uses: actions/checkout@v4
+        with:
+          repository: tardis-sn/tardis
+          token: ${{ secrets.TARDIS_TOKEN }}
+          ref: ${{ matrix.tardis-version }}
+          path: tardis
+
+      - name: Get atom data files
+        uses: actions/checkout@v4
+        with:
+          repository: tardis-sn/tardis-regression-data
+          token: ${{ secrets.TARDIS_TOKEN }}
+          sparse-checkout: |
+            atom_data/kurucz_cd23_chianti_H_He.h5
+          sparse-checkout-cone-mode: false
+          path: tardis-regression-data
+          lfs: true
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: ./tardis/conda-linux-64.lock
+          environment-name: tardis
+
+      - name: Install tardis
+        run: |
+          pip install -e .
+        working-directory: tardis
+
+      - name: Generate Tests
+        run: |
+           pytest tardis/spectrum/tests/test_spectrum_solver.py --tardis-regression-data=${{github.workspace}}/tardis-regression-data --generate-reference
+        working-directory: tardis
+
+      - uses: actions/upload-artifact@v4
+        with:
+            name: tardis-outputs-${{ matrix.tardis-version }}
+            path: |
+               tardis-regression-data/tardis/spectrum/tests/test_spectrum_solver/test_spectrum_solver/TestSpectrumSolver.h5
+
+      - name: Show Generated Files
+        if: always()
+        run: |
+          ls -R tardis-regression-data/tardis/spectrum/tests/test_spectrum_solver/test_spectrum_solver/
+
+  download-artifacts:
+    needs: simulation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: downloaded-artifacts
+
+      - name: Set custom environment variables for paths
+        run: |
+            # Get the list of artifact files
+            FILES=($(find downloaded-artifacts -mindepth 2 -type f))
+  
+            # Assign the paths to custom variables
+            if [ ${#FILES[@]} -ge 2 ]; then
+              echo "CUSTOM_REF1_SPECTRUM_PATH=${FILES[0]}" >> $GITHUB_ENV
+              echo "CUSTOM_REF2_SPECTRUM_PATH=${FILES[1]}" >> $GITHUB_ENV
+              echo "Custom paths set:"
+              echo "CUSTOM_REF1_SPECTRUM_PATH=${FILES[0]}"
+              echo "CUSTOM_REF2_SPECTRUM_PATH=${FILES[1]}"
+            else
+              echo "Error: Not enough artifact files found" >&2
+              exit 1
+            fi
+  
+      - name: Clone Tardis
+        uses: actions/checkout@v4
+        with:
+          repository: tardis-sn/tardis
+          token: ${{ secrets.TARDIS_TOKEN }}
+          path: tardis
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+            environment-file: ./tardis/conda-linux-64.lock
+            environment-name: tardis
+
+      - name: Execute Compare Spectrum Notebook
+        run: |
+          jupyter nbconvert --execute compare_spectrum.ipynb --to notebook --inplace
+
+      - name: Upload Notebook Output
+        uses: actions/upload-artifact@v4
+        with:
+            name: compare-spectrum-output
+            path: compare_spectrum.ipynb
