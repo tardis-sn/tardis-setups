@@ -1,6 +1,13 @@
 name: Compare Spectrum
 on:
   workflow_dispatch:
+    inputs:
+     version1:
+       description: 'First TARDIS version'
+       required: true
+     version2:
+       description: 'Second TARDIS version'
+       required: true
 
 defaults:
   run:
@@ -10,7 +17,7 @@ jobs:
   simulation:
     strategy:
       matrix:
-        tardis-version: ['release-2024.12.22', 'release-2024.12.15']
+        tardis-version: ["${{ github.event.inputs.version1 }}", "${{ github.event.inputs.version2 }}"]
       fail-fast: false
 
     runs-on: ubuntu-latest
